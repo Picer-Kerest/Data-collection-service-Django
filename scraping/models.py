@@ -1,11 +1,58 @@
 from django.db import models
-
+from .utils import from_cyrillic_to_eng
 
 class City(models.Model):
-    name = models.CharField(max_length=60)
-    slug = models.CharField(max_length=60, blank=True)
+    name = models.CharField(max_length=60, verbose_name='Name of the city', unique=True)
+    slug = models.CharField(max_length=60, blank=True, unique=True)
 
     class Meta:
         verbose_name = 'city'
         verbose_name_plural = 'cities'
         ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = from_cyrillic_to_eng(str(self.name))
+        super().save(*args, **kwargs)
+
+
+class Language(models.Model):
+    name = models.CharField(max_length=60, verbose_name='Programming language', unique=True)
+    slug = models.CharField(max_length=60, blank=True, unique=True)
+
+    class Meta:
+        verbose_name = 'programming language'
+        verbose_name_plural = 'programming languages'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = from_cyrillic_to_eng(str(self.name))
+        super().save(*args, **kwargs)
+
+class Vacancy(models.Model):
+    url = models.URLField(unique=True)
+    title = models.CharField(max_length=250, verbose_name='Job title')
+    company = models.CharField(max_length=250, verbose_name='Company')
+    description = models.TextField(verbose_name='Job description')
+    city = models.ForeignKey(City, on_delete=models.CASCADE,
+                             verbose_name='City', related_name='vacancies')
+    language = models.ForeignKey(Language, on_delete=models.CASCADE,
+                                 verbose_name='Programming language')
+    timestamp = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'vacancy'
+        verbose_name_plural = 'vacancy'
+        # ordering = ['-timestamp']
+
+    def __str__(self):
+        return self.title
+
