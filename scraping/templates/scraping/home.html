@@ -17,8 +17,8 @@ Home Page Scraping
           </div>
 
           <div class="card-body">
+              <h5>{{ obj.company }}</h5>
               <p class="card-text">{{ obj.description }}</p>
-
               <p class="card-text">{{ obj.city.name }} | {{ obj.language.name }} | <small>{{ obj.timestamp|date:"j F Y"  }}</small></p>
           </div>
 
