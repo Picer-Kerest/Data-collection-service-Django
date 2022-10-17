@@ -5,3 +5,7 @@ __pycache__/
 local_settings.py
 /static/
 scraping.json
+data.json
+work.json
+work.html
+work.txt
