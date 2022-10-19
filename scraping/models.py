@@ -1,5 +1,13 @@
 from django.db import models
 from .utils import from_cyrillic_to_eng
+# import jsonfield
+
+
+def default_urls():
+    return {
+        'habr': '',
+        'hh': '',
+    }
 
 class City(models.Model):
     name = models.CharField(max_length=60, verbose_name='Name of the city', unique=True)
@@ -43,7 +51,7 @@ class Vacancy(models.Model):
     company = models.CharField(max_length=250, verbose_name='Company')
     description = models.TextField(verbose_name='Job description')
     city = models.ForeignKey(City, on_delete=models.CASCADE,
-                             verbose_name='City', related_name='vacancies')
+                             verbose_name='City')
     language = models.ForeignKey(Language, on_delete=models.CASCADE,
                                  verbose_name='Programming language')
     timestamp = models.DateField(auto_now_add=True)
@@ -55,4 +63,24 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Error(models.Model):
+    timestamp = models.DateField(auto_now_add=True)
+    # data = jsonfield.JSONField()
+    data = models.JSONField()
+
+    # def __str__(self):
+    #     return self.title
+
+
+class Url(models.Model):
+    city = models.ForeignKey(City, on_delete=models.CASCADE,
+                             verbose_name='City')
+    language = models.ForeignKey(Language, on_delete=models.CASCADE,
+                                 verbose_name='Programming language')
+    url_data = models.JSONField(default=default_urls)
+
+    class Meta:
+        unique_together = ('city', 'language')
 
