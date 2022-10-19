@@ -17,7 +17,7 @@ __all__ = ('habr', 'hh')
 
 
 
-def habr(url):
+def habr(url, city=None, language=None):
     # habr.ru
     jobs = []
     errors = []
@@ -58,9 +58,8 @@ def habr(url):
                     'title': title.text,
                     'company': company,
                     'description': content,
-                    # 'city': 1,
-                    # 'language': 1,
-                    # 'timestamp': 1,
+                    'city_id': city,
+                    'language_id': language,
                 })
         else:
             errors.append({
@@ -77,7 +76,7 @@ def habr(url):
 
 
 
-def hh(url):
+def hh(url, city=None, language=None):
     #   HH.RU
     jobs = []
     errors = []
@@ -106,9 +105,8 @@ def hh(url):
                     'title': title.text,
                     'company': company,
                     'description': content,
-                    # 'city': 1,
-                    # 'language': 1,
-                    # 'timestamp': 1,
+                    'city_id': city,
+                    'language_id': language,
                 })
         else:
             errors.append({

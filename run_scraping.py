@@ -56,24 +56,22 @@ def main():
                     urls.append(tmp)
         return urls
 
-
+    # city = City.objects.filter(slug='moscow').first()   # to exclude the QuerySet
+    # language = Language.objects.filter(slug='python').first()   # to exclude the QuerySet
 
     settings = get_settings()
     url_lst = get_urls(settings)
 
-
-    # city = City.objects.filter(slug='moscow').first()   # to exclude the QuerySet
-    # language = Language.objects.filter(slug='python').first()   # to exclude the QuerySet
-
     jobs, errors = [], []
-    for data in url_lst:
-        for func, url in parsers:
-            j, e = func(url)
+    for data_url in url_lst:
+        for func, key in parsers:
+            url = data_url['url_data'][key]
+            j, e = func(url, city=data_url['city'], language=data_url['language'])
             jobs += j
             errors += e
 
     for job in jobs:
-        v = Vacancy(**job, city=city, language=language)
+        v = Vacancy(**job)
         try:
             v.save()
         except DatabaseError:
