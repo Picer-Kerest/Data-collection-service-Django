@@ -1,3 +1,4 @@
+import asyncio
 import codecs
 import os
 import sys
@@ -26,6 +27,7 @@ def main():
         (hh, 'hh')
     )
 
+    jobs, errors = [], []
 
     def get_settings():
         qs = User.objects.filter(send_email=True).values()  # values() for Dictionary Lists
@@ -56,19 +58,47 @@ def main():
                     urls.append(tmp)
         return urls
 
-    # city = City.objects.filter(slug='moscow').first()   # to exclude the QuerySet
-    # language = Language.objects.filter(slug='python').first()   # to exclude the QuerySet
+
+    async def search_func(value):
+        func, url, city, language = value
+        job, err = await loop.run_in_executor(None, func, url, city, language)
+        errors.extend(err)
+        jobs.extend(job)
+
 
     settings = get_settings()
     url_lst = get_urls(settings)
 
-    jobs, errors = [], []
-    for data_url in url_lst:
-        for func, key in parsers:
-            url = data_url['url_data'][key]
-            j, e = func(url, city=data_url['city'], language=data_url['language'])
-            jobs += j
-            errors += e
+
+
+    # asyncio
+    loop = asyncio.new_event_loop()    # https://aiopg.readthedocs.io/en/stable/run_loop.html
+    tmp_tasks = [(func, data_url['url_data'][key], data_url['city'], data_url['language'])
+                 for data_url in url_lst
+                 for func, key in parsers]
+    '''
+    Tuple со всеми url'ами, городами, языками, которые у нас есть
+    '''
+
+    # tasks = asyncio.wait([loop.create_task(search_func(task)) for task in tmp_tasks])
+    '''
+    search_func для добавления работы/ошибок
+    task - набор данных func, data_url['url_data'][key], data_url['city'], data_url['language']
+    loop.create_task создаёт таски 
+    asyncio.wait вызывает на выполнение 
+    '''
+
+    # for data_url in url_lst:
+    #     for func, key in parsers:
+    #         url = data_url['url_data'][key]
+    #         j, e = func(url, city=data_url['city'], language=data_url['language'])
+    #         jobs += j
+    #         errors += e
+
+    if tmp_tasks:
+        tasks = asyncio.wait([loop.create_task(search_func(task)) for task in tmp_tasks])
+        loop.run_until_complete(tasks)
+        loop.close()
 
     for job in jobs:
         v = Vacancy(**job)
@@ -79,6 +109,7 @@ def main():
 
     if errors:
         er = Error(data=errors).save()  # JSONdata [{}, {}, {}, {}, ...{}]
+
     # h = codecs.open('work.txt', 'w', 'utf-8')
     # h.write(str(jobs))
     # h.close()
