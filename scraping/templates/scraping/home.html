@@ -5,32 +5,18 @@ Home Page Scraping
 {% endblock %}
 
 {% block content %}
-    <br>
-    <br>
-    <br>
-    <h1 align="center">TEMPLATE FOR     SCRAPPING   APP</h1>
-    {% for obj in object_list %}
-        <div class="card my-3">
-
-          <div class="card-header">
-            <a href="{{ obj.url }}">{{ obj.title }}</a>
-          </div>
-
-          <div class="card-body">
-              <h5>{{ obj.company }}</h5>
-              <p class="card-text">{{ obj.description }}</p>
-              <p class="card-text">{{ obj.city.name }} | {{ obj.language.name }} | <small>{{ obj.timestamp|date:"j F Y"  }}</small></p>
-          </div>
-
-        </div>
-    {% empty %}
-    <h3 align="center">Nothing was found for your query.</h3>
-    {% endfor %}
-
+<br>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h3 align="center">Service for collecting and mailing vacancies.</h3>
+        <h4 align="center">At least 1 field.</h4>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-6 mx-auto">
-        <form action="">
+        <h4 align="center">Fill out the form to view available vacancies.</h4>
+        <form action="{% url 'list' %}">
             <div class="form-group">
                 {{ form.as_p }}
             </div>
@@ -38,7 +24,5 @@ Home Page Scraping
         </form>
     </div>
 </div>
-
-
 
 {% endblock %}

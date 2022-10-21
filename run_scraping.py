@@ -2,7 +2,6 @@ import asyncio
 import codecs
 import os
 import sys
-
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
 from scraping.parsers import *
@@ -68,7 +67,6 @@ def main():
 
     settings = get_settings()
     url_lst = get_urls(settings)
-
 
 
     # asyncio
