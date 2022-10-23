@@ -9,6 +9,7 @@ def default_urls():
         'hh': '',
     }
 
+
 class City(models.Model):
     name = models.CharField(max_length=60, verbose_name='Name of the city', unique=True)
     slug = models.CharField(max_length=60, blank=True, unique=True)
@@ -20,7 +21,6 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
-
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -44,6 +44,7 @@ class Language(models.Model):
         if not self.slug:
             self.slug = from_cyrillic_to_eng(str(self.name))
         super().save(*args, **kwargs)
+
 
 class Vacancy(models.Model):
     url = models.URLField(unique=True)

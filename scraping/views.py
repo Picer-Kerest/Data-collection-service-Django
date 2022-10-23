@@ -4,7 +4,6 @@ from .models import Vacancy
 from .forms import FindForm
 
 
-
 def home_view(request):
     form = FindForm()
     return render(request, 'scraping/home.html', {'form': form})

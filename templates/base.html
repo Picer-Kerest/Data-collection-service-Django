@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,9 +10,11 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'accounts/custom.css' %}">
     <title>{% block title %}Job Finder{% endblock %}</title>
   </head>
   <body>
+
 
   <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -21,11 +25,15 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="{% url 'home' %}">Main Page<span class="sr-only"></span></a>
         </li>
+      </ul>
 
-
+      <ul class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:update' %}">User settings</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'accounts:logout' %}">Log out</a>
           </li>
@@ -42,10 +50,35 @@
   </nav>
   </div>
 
+
+  <div class="container">
+     <div class="row">
+        <div class="col-md-8 mx-auto">
+          {% if messages %}
+                {% for message in messages %}
+                  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      {{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      {{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+          {% endif %}
+        </div>
+     </div>
+  </div>
+
+
   <div class="container">
     {% block content %}
     {% endblock %}
   </div>
+
 
     <!-- Optional JavaScript; choose one of the two! -->
 

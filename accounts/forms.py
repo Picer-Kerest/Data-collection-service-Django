@@ -71,7 +71,7 @@ class UserUpdateForm(forms.Form):
                                       to_field_name='slug', required=True,
                                       widget=forms.Select(attrs={
                                           'class': 'form-control js-example-basic-single'}))
-    send_email = forms.BooleanField(required=False, widget=forms.CheckboxInput, label='Subscribe to the newsletter?')
+    send_email = forms.BooleanField(required=False, widget=forms.CheckboxInput, label='Subscribe to the mailing?')
 
     class Meta:
         model = User

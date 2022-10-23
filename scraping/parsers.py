@@ -16,7 +16,6 @@ headers = [
 __all__ = ('habr', 'hh')
 
 
-
 def habr(url, city=None, language=None):
     # habr.ru
     jobs = []
@@ -74,7 +73,6 @@ def habr(url, city=None, language=None):
     return jobs, errors
 
 
-
 def hh(url, city=None, language=None):
     #   HH.RU
     jobs = []
@@ -118,7 +116,6 @@ def hh(url, city=None, language=None):
                 'title': 'Page do not response',
             })
     return jobs, errors
-
 
 
 if __name__ == '__main__':
