@@ -7,8 +7,6 @@ from django.db import DatabaseError
 from scraping.parsers import *
 
 
-
-
 PROJECT_NAME = 'scraping_service'
 
 
@@ -17,7 +15,6 @@ def main():
 
     proj = os.path.dirname(os.path.abspath('manage.py'))
     sys.path.append(proj)
-
 
     User = get_user_model()  # Link to the current user model
 
@@ -119,3 +116,4 @@ if __name__ == '__main__':
 
     django.setup()
     main()
+

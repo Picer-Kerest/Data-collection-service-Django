@@ -9,22 +9,24 @@ User Settings
 {% block content %}
 
 
-<div class="box-parent">
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            <h4 align="center">User Settings</h4>
-            <form method="POST" action="">{% csrf_token %}
-                <div class="form-group">
-                    {{ form.as_p }}
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button><br><br>
-            </form>
-            <form method="POST" action="{% url 'accounts:delete' %}">{% csrf_token %}
-                <button type="submit" class="btn btn-danger">Delete User</button><br><br>
-            </form>
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4 align="center">User Settings</h4>
+        <form method="POST" action="">{% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <div class="box-parent">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <form method="POST" action="{% url 'accounts:delete' %}">{% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete User</button>
+        </form>
         </div>
     </div>
 </div>
+
 
 
 {% endblock %}
