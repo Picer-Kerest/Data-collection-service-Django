@@ -1,5 +1,6 @@
 import asyncio
 import codecs
+import datetime
 import os
 import sys
 from django.contrib.auth import get_user_model
@@ -33,12 +34,17 @@ def main():
 
     def get_urls(_settings):
         '''
+        _settings = (city, language_id) тех пользователей, которым нужна рассылка
+
         Мы получаем пару из города и языка, которые у нас есть на сайте среди пользователей.
         Далее мы забираем из базы все значения {(город, язык): urls}
         Проходим по каждой паре среди пользователей и проверяем есть ли она в базе на соответствие {(город, язык): urls}
         Дальше в словарь помещаем ключ города и его id, то же самое с языком и потом если есть url для этой пары,
         то добавляем url.
         В конце добавляем этот словарь в массив urls.
+
+        Функция сделана для получения тех пар, по которым требуется скрапинг.
+
         '''
         qs = Url.objects.all().values()
         url_dict = {(q['city_id'], q['language_id']): q['url_data'] for q in qs}
@@ -54,17 +60,14 @@ def main():
                     urls.append(tmp)
         return urls
 
-
     async def search_func(value):
         func, url, city, language = value
         job, err = await loop.run_in_executor(None, func, url, city, language)
         errors.extend(err)
         jobs.extend(job)
 
-
     settings = get_settings()
     url_lst = get_urls(settings)
-
 
     # asyncio
     loop = asyncio.new_event_loop()    # https://aiopg.readthedocs.io/en/stable/run_loop.html
@@ -102,8 +105,15 @@ def main():
         except DatabaseError:
             pass
 
+    # errors = [{'url': url, 'title': 'Page do not response', })...{}]
     if errors:
-        er = Error(data=errors).save()  # JSONdata [{}, {}, {}, {}, ...{}]
+        qs = Error.objects.filter(timestamp=datetime.date.today())
+        if qs.exists():
+            err = qs.first()
+            err.data.update({'errors': errors})
+            err.save()
+        else:
+            er = Error(data=f'errors:{errors}').save()
 
     # h = codecs.open('work.txt', 'w', 'utf-8')
     # h.write(str(jobs))
