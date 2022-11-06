@@ -73,6 +73,7 @@ def main():
         error = qs.first()
         data_1 = error.data.get('errors', [])
         if data_1:
+            content += '<hr>'
             content += '<h2 align="center">Errors</h2>'
             for dictionary in data_1:
                 content += f'<h3><a href="{dictionary["url"]}">Error: {dictionary["title"]}</a></h3>'
