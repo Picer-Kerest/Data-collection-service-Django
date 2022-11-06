@@ -1,0 +1,31 @@
+@font-face {
+    font-family: CantataOne;
+    src: url(../fonts/CantataOne-Regular.ttf);
+}
+
+#brand {
+    font-family: CantataOne;
+    color: #000000;
+}
+
+
+/*
+.navbar-expand-lg {
+    background-color: #111820;
+}
+
+.navbar-nav .nav-link {
+    color: #f3aa4e !important;
+}
+
+.navbar-brand {
+    color: #000000 !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgba(2, 44, 250, 0.9) !important;
+}
+
+.nav-link {
+    color: #000000 !important;
+}*/
