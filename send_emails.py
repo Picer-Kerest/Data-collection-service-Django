@@ -45,8 +45,7 @@ def main():
             params['city_id__in'].append(pair[0])
             params['language_id__in'].append(pair[1])
         qs = Vacancy.objects.filter(**params, timestamp=today).values()
-        # qs = Vacancy.objects.filter(**params).values()[:10]
-        vacancies = {}
+        # vacancies = {}
         # for i in qs:
         #     vacancies.setdefault((i['city_id'], i['language_id']), [])
         #     vacancies[(i['city_id'], i['language_id'])].append(i)
@@ -76,7 +75,7 @@ def main():
         if data_1:
             content += '<h2 align="center">Errors</h2>'
             for dictionary in data_1:
-                content += f'<h4><a href="{dictionary["url"]}">Error: {dictionary["title"]}</a></h4>'
+                content += f'<h3><a href="{dictionary["url"]}">Error: {dictionary["title"]}</a></h3>'
             subject = f'Scraping Errors {today}'
             text_content = f'Scraping Errors {today}'
         data_2 = error.data.get('user_data', [])
@@ -84,8 +83,8 @@ def main():
             content += '<hr>'
             content += '<h2 align="center">User wishes</h2>'
             for dictionary in data_2:
-                content += f'<h4>You need to add settings for city {dictionary["city"]} and ' \
-                           f'language {dictionary["language"]}. Sent from {dictionary["email"]} </h4>'
+                content += f'<h3>You need to add settings for city {dictionary["city"]} and ' \
+                           f'language {dictionary["language"]}. Sent from {dictionary["email"]} </h3>'
             subject = f'User wishes {today}'
             text_content = f'User wishes {today}'
     qs = Url.objects.all().values('city', 'language')
@@ -98,9 +97,9 @@ def main():
             content += '<hr>'
             content += '<h2 align="center">Information about missing settings</h2>'
             if keys[0] and keys[1]:
-                urls_err += f'<p>For the city <b>{cities_dct[keys[0]]}</b> with <b>id={keys[0]}</b>, ' \
+                urls_err += f'<h3>For the city <b>{cities_dct[keys[0]]}</b> with <b>id={keys[0]}</b>, ' \
                             f'and language <b>{language_dct[keys[1]]}</b> ' \
-                            f'with <b>id={keys[1]}</b> there are no scraping-urls</p><br>'
+                            f'with <b>id={keys[1]}</b> there are no scraping-urls</h3><br>'
     if urls_err:
         subject += 'Missing urls'
         content += urls_err

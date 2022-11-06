@@ -10,3 +10,4 @@ work.json
 work.html
 work.txt
 .env
+staticfiles/
