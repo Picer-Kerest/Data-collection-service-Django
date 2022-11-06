@@ -45,24 +45,24 @@ def main():
             params['city_id__in'].append(pair[0])
             params['language_id__in'].append(pair[1])
         qs = Vacancy.objects.filter(**params, timestamp=today).values()
-        # vacancies = {}
-        # for i in qs:
-        #     vacancies.setdefault((i['city_id'], i['language_id']), [])
-        #     vacancies[(i['city_id'], i['language_id'])].append(i)
-        # for keys, emails in users_dct.items():
-        #     rows = vacancies.get(keys, [])
-        #     html = ''
-        #     for row in rows:
-        #         html += f'<h3><a href="{row["url"]}">{row["title"]}</a></h3>'
-        #         html += f'<p>{row["description"]}</p>'
-        #         html += f'<p>{row["company"]}</p><hr>'
-        #         # f-string -> Double brackets are not needed
-        #     final_html = html if html else empty
-        #     for email in emails:
-        #         to = email
-        #         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        #         msg.attach_alternative(final_html, "text/html")
-        #         msg.send()
+        vacancies = {}
+        for i in qs:
+            vacancies.setdefault((i['city_id'], i['language_id']), [])
+            vacancies[(i['city_id'], i['language_id'])].append(i)
+        for keys, emails in users_dct.items():
+            rows = vacancies.get(keys, [])
+            html = ''
+            for row in rows:
+                html += f'<h3><a href="{row["url"]}">{row["title"]}</a></h3>'
+                html += f'<p>{row["description"]}</p>'
+                html += f'<p>{row["company"]}</p><hr>'
+                # f-string -> Double brackets are not needed
+            final_html = html if html else empty
+            for email in emails:
+                to = email
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(final_html, "text/html")
+                msg.send()
 
     qs = Error.objects.filter(timestamp=today)
     subject = ''
