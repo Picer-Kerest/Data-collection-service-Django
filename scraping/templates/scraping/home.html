@@ -16,7 +16,7 @@ Home Page
 <div class="row">
     <div class="col-md-6 mx-auto">
         <h4 align="center">Fill out the form to view available vacancies.</h4>
-        <form action="{% url 'list' %}">
+        <form method="GET" action="{% url 'list' %}">
             <div class="form-group">
                 {{ form.as_p }}
             </div>

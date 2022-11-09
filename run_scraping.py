@@ -119,6 +119,10 @@ def main():
     # h.write(str(jobs))
     # h.close()
 
+    ten_days_ago = datetime.date.today() - datetime.timedelta(10)
+    Vacancy.objects.filter(timestamp__lte=ten_days_ago).delete()
+    # __lte -> Less than or equal field ≤ 10
+    # ten_days_ago example: 2022-10-20
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', '%s.settings' % PROJECT_NAME)

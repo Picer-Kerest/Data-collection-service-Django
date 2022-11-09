@@ -16,11 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from scraping import views
+from scraping.views import VacancyDetailView, VacancyListView, VacancyCreateView, VacancyUpdateView, VacancyDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_view, name='home'),
-    path('list/', views.list_view, name='list'),
+    # path('list/', views.list_view, name='list'),
+    # path('detail/<int:pk>/', views.v_detail, name='detail'),
+
+    path('detail/<slug:id>/', VacancyDetailView.as_view(), name='detail'),
+    path('list/', VacancyListView.as_view(), name='list'),
+    path('create/', VacancyCreateView.as_view(), name='create'),
+    path('update/<slug:id>/', VacancyUpdateView.as_view(), name='update'),
+    path('delete/<slug:id>/', VacancyDeleteView.as_view(), name='delete'),
 
     path('accounts/', include('accounts.urls')),
 ]

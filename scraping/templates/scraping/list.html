@@ -7,17 +7,17 @@ Search results
 {% block content %}
 <br>
 
-{% if object_list %}
+{% if page_obj %}
     <h3 align="center">The result according to your request:
-        {% if city and language %}
-            {{ city }}, {{ language }}
-        {% elif city %}
-            {{ city }}
+        {% if city_html and language_html %}
+            {{ city_html }}, {{ language_html }}
+        {% elif city_html %}
+            {{ city_html }}
         {% else %}
-            {{ language }}
+            {{ language_html }}
         {% endif %}
     </h3>
-    {% for obj in object_list %}
+    {% for obj in page_obj %}
         <div class="card my-3">
           <div class="card-header">
             <a href="{{ obj.url }}">{{ obj.title }}</a>
@@ -33,21 +33,21 @@ Search results
         <div class="col">
             <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                       {% if object_list.has_previous %}
+                       {% if page_obj.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?city={{city}}&language={{ language }}&page={{ object_list.previous_page_number }}" aria-label="Previous">
+                                <a class="page-link" href="?city={{city}}&language={{ language }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                       {% endif %}
-                      {% for page in object_list.paginator.page_range %}
-                          <li class="page-item {% if page == object_list.number %} active {% endif %}">
+                      {% for page in page_obj.paginator.page_range %}
+                          <li class="page-item {% if page == page_obj.number %} active {% endif %}">
                               <a class="page-link" href="?city={{city}}&language={{ language }}&page={{page}}">{{page}}</a>
                           </li>
                       {% endfor %}
-                      {% if object_list.has_next %}
+                      {% if page_obj.has_next %}
                         <li class="page-item">
-                          <a class="page-link" href="?city={{city}}&language={{ language }}&page={{ object_list.next_page_number }}" aria-label="Next">
+                          <a class="page-link" href="?city={{city}}&language={{ language }}&page={{ page_obj.next_page_number }}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                           </a>
                         </li>
