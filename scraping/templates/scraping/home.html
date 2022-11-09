@@ -9,13 +9,19 @@ Home Page
 <div class="row">
     <div class="col-md-6 mx-auto">
         <h3 align="center">Service for collecting and mailing vacancies.</h3>
-        <h4 align="center">At least 1 field.</h4>
+        <h4 align="center">Every day there is an analysis of sites with vacancies,
+            according to the settings of our subscribers.
+            All suitable vacancies that have been published on these sites over the
+            past day are sent to subscribers according to their preferences.
+            You can view current vacancies by simply selecting the desired city or specialty.
+            Also, after <a href="{% url 'accounts:register' %}">registering</a>, you can receive emails every day with a
+            list of new vacancies for the last day, according to your needs.</h4>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-6 mx-auto">
-        <h4 align="center">Fill out the form to view available vacancies.</h4>
+        <h4 align="center">At least 1 field.</h4>
         <form method="GET" action="{% url 'list' %}">
             <div class="form-group">
                 {{ form.as_p }}
