@@ -33,7 +33,7 @@ def main():
         return settings_lst
 
     def get_urls(_settings):
-        '''
+        """
         _settings = (city, language_id) тех пользователей, которым нужна рассылка
 
         Мы получаем пару из города и языка, которые у нас есть на сайте среди пользователей.
@@ -45,7 +45,7 @@ def main():
 
         Функция сделана для получения тех пар, по которым требуется скрапинг.
 
-        '''
+        """
         qs = Url.objects.all().values()
         url_dict = {(q['city_id'], q['language_id']): q['url_data'] for q in qs}
         urls = []
@@ -74,17 +74,17 @@ def main():
     tmp_tasks = [(func, data_url['url_data'][key], data_url['city'], data_url['language'])
                  for data_url in url_lst
                  for func, key in parsers]
-    '''
+    """
     Tuple со всеми url'ами, городами, языками, которые у нас есть
-    '''
+    """
 
     # tasks = asyncio.wait([loop.create_task(search_func(task)) for task in tmp_tasks])
-    '''
+    """
     search_func для добавления работы/ошибок
     task - набор данных func, data_url['url_data'][key], data_url['city'], data_url['language']
     loop.create_task создаёт таски 
     asyncio.wait вызывает на выполнение 
-    '''
+    """
 
     # for data_url in url_lst:
     #     for func, key in parsers:
@@ -123,6 +123,7 @@ def main():
     Vacancy.objects.filter(timestamp__lte=ten_days_ago).delete()
     # __lte -> Less than or equal field ≤ 10
     # ten_days_ago example: 2022-10-20
+
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', '%s.settings' % PROJECT_NAME)

@@ -16,10 +16,10 @@ def home_view(request):
 
 
 # def list_view(request):
-#     '''
+#     """
 #     For pagination: object_list instead of page_obj in html_file.
 #     {% for obj in object_list %}
-#     '''
+#     """
 #     form = FindForm()
 #     city = request.GET.get('city')
 #     language = request.GET.get('language')
@@ -70,12 +70,12 @@ class VacancyListView(ListView):
     # slug_url_kwarg = 'id'
 
     def get_context_data(self, **kwargs):
-        '''
+        """
         Default Value: context['object_list'] = Vacancy.objects.all()
         For pagination: page_obj instead of object_list in html_file.
         {% for obj in page_obj %}
         request is in self
-        '''
+        """
         context = super().get_context_data(**kwargs)
         city = self.request.GET.get('city')
         language = self.request.GET.get('language')
