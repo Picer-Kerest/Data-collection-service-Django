@@ -6,3 +6,7 @@ local_settings.py
 work.html
 work.txt
 .env
+cron_script.py
+text.txt
+*.sqlite3
+/db/*.sqlite3

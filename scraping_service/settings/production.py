@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     'django_dump_load_utf8',
     'scraping',
     'accounts',
+
+    'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

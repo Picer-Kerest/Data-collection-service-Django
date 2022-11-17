@@ -31,4 +31,5 @@ urlpatterns = [
     path('delete/<slug:id>/', VacancyDeleteView.as_view(), name='delete'),
 
     path('accounts/', include('accounts.urls')),
+    path('api/', include('scraping.api.urls')),
 ]
