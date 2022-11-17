@@ -12,6 +12,11 @@ period = datetime.date.today() - datetime.timedelta(1)
 
 class DateFilterBackend(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
+        """
+        request находится в self
+        В данном случае не нужно self.request, потому что
+        request передаётся в качестве параметра
+        """
         city_slug = request.query_params.get('city', None)
         language_slug = request.query_params.get('language', None)
         return queryset.filter(
