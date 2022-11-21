@@ -52,6 +52,9 @@ class VacancyViewSet(ModelViewSet):
         """
         query_params is GET in Django
         dict
+
+        Фильтры отключаем, потому что city или language могут не передаваться, а
+         фильтры требуют наличия, то есть обязательное присутствие двух параметров
         """
         city_slug = self.request.query_params.get('city', None)
         language_slug = self.request.query_params.get('language', None)
