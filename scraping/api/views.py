@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from scraping.models import City, Language, Vacancy
 from .serializers import *
 
-period = datetime.date.today() - datetime.timedelta(1)
+period = datetime.date.today() - datetime.timedelta(3)
 
 
 class DateFilterBackend(filters.BaseFilterBackend):
