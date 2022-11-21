@@ -44,30 +44,31 @@ class VacancyViewSet(ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
-    filter_backends = (DjangoFilterBackend, DateFilterBackend)
-    filterset_fields = ('city__slug', 'language__slug')
+    # filter_backends = (DjangoFilterBackend, DateFilterBackend)
+    # filterset_fields = ('city__slug', 'language__slug')
     # По умолчанию ИЛИ. То есть или какой-то город или какой-то язык
 
-    # def get_queryset(self):
-    #     """
-    #     query_params is GET in Django
-    #     dict
-    #     """
-    #     city_slug = self.request.query_params.get('city', None)
-    #     language_slug = self.request.query_params.get('language', None)
-    #     qs = None
-    #     if city_slug and language_slug:
-    #         qs = Vacancy.objects.filter(
-    #             city__slug=city_slug,
-    #             language__slug=language_slug,
-    #             timestamp__gte=period).select_related('city', 'language')  # (field__gte=5)  # field ≥ 5
-            # if not qs.exists():
-            #     qs = Vacancy.objects.filter(
-            #         city__slug=language_slug,
-            #         language__slug=city_slug,
-            #         timestamp__gte=period).select_related('city', 'language')  # (field__gte=5)  # field ≥ 5
-        # self.queryset = qs
-        # return self.queryset
+    def get_queryset(self):
+        """
+        query_params is GET in Django
+        dict
+        """
+        city_slug = self.request.query_params.get('city', None)
+        language_slug = self.request.query_params.get('language', None)
+        qs = None
+        if city_slug and language_slug:
+            qs = Vacancy.objects.filter(
+                city__slug=city_slug,
+                language__slug=language_slug,
+                timestamp__gte=period).select_related('city', 'language')  # (field__gte=5)  # field ≥ 5
+            if not qs.exists():
+                qs = Vacancy.objects.filter(
+                    city__slug=language_slug,
+                    language__slug=city_slug,
+                    timestamp__gte=period).select_related('city', 'language')  # (field__gte=5)  # field ≥ 5
+            # Эта проверка для Telegram Bot'a на случай если город и язык поменяны местами
+        self.queryset = qs
+        return self.queryset
 
     #
     # def get_queryset(self):
